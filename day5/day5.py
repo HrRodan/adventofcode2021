@@ -1,8 +1,8 @@
-from collections import namedtuple
+import collections
 from itertools import zip_longest
 from typing import List
 
-Point = namedtuple('Point', ['x', 'y'])
+Point = collections.namedtuple('Point', ['x', 'y'])
 
 
 class Line():
@@ -41,9 +41,11 @@ with open('lines.txt', 'r', newline='\n') as file:
     data = ((element.strip().split(',') for element in line.strip().split(' -> ')) for line in file.readlines())
     lines = [Line(Point(int(start[0]), int(start[1])), Point(int(end[0]), int(end[1]))) for start, end in data]
 
-count_per_point = {}
+point_count = collections.Counter()
 for line in lines:
-    for point in line.covered_points:
-        count_per_point[point] = count_per_point.get(point, 0) + 1
+    point_count.update(iter(line.covered_points))
 
-count_per_point_twice = {k: v for k, v in count_per_point.items() if v >= 2}
+count_per_point_twice = {k: v for k, v in point_count.items() if v >= 2}
+#analog
+count_twice=sum(1 for k,v in point_count.items() if v >=2)
+print(len(count_per_point_twice))
