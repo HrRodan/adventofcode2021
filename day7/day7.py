@@ -13,3 +13,4 @@ crabs_max_position = crabs.max() + 1
 
 fuel_consumption = np.fromiter((fuel(x0, crabs) for x0 in range(crabs_max_position)),
                                dtype=np.int32, count=crabs_max_position).min()
+
