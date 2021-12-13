@@ -14,9 +14,7 @@ file = '''
 6351586484'''
 
 octo = np.array([[int(char) for char in line.strip()] for line in file.split('\n') if line.strip()]).astype(np.ubyte)
-
 STEPS = 100
-
 count_flashes = 0
 for i in range(1, 2000):
     octo = octo + 1
