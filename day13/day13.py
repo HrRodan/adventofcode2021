@@ -40,6 +40,7 @@ folds = [fold_to_tuple(line) for line in fold_in.split('\n') if line.strip()]
 
 # convert to numpy array
 array = np.full(np.max(dots, axis=0) + 1, False)
+#array[tuple([*np.transpose(dots)])]=1
 for dot in dots:
     array[dot] = True
 
