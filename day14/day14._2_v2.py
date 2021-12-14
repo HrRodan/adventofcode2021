@@ -8,9 +8,8 @@ STEPS = 40
 
 with open('input_test.txt', 'r') as input_:
     polymer, pairs_input = input_.read().split('\n\n')
-    pairs = {key: [key[0] + value, value + key[1]] for line in pairs_input.split('\n')
-             if line.strip()
-             for key, value in [line.strip().split(' -> ')]}
+    pairs = {key: [key[0] + value, value + key[1]] for key, value
+             in (line.split(' -> ') for line in pairs_input.split('\n'))}
 
 #collect possible pairs
 start_pairs = {polymer[i:i + 2] for i in range(len(polymer) - 1)}
