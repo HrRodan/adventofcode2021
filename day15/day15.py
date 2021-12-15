@@ -44,13 +44,15 @@ point_list = np.vstack(np.transpose(np.indices(shape)))
 #     edges[tuple(point)] = {close_point: cave[close_point] for close_point in close_points}
 
 for point in point_list:
-    close_points = ((p_x, p_y)
-                    for dx, dy in next_list
-                    if 0 <= (p_x := point[0] + dx) < shape[0]
-                    and 0 <= (p_y := point[1] + dy) < shape[1])
+    x, y = point
+    close_points = [(x - 1, y), (x + 1, y), (x, y + 1), (x, y - 1)]
+    # close_points = ((p_x, p_y)
+    #                 for dx, dy in next_list
+    #                 if 0 <= (p_x := point[0] + dx) < shape[0]
+    #                 and 0 <= (p_y := point[1] + dy) < shape[1])
 
-    edges[tuple(point)] = {point: cave[point] for point in close_points}
-
+    edges[tuple(point)] = {point: cave[point] for point in close_points if -1 not in point
+                           and shape[0] != point[0] and shape[1] != point[1]}
 
 # %%
 
