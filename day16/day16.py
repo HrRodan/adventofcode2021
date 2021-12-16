@@ -46,7 +46,7 @@ packet_functions = {
 def next_as_decimal(iterator: iter, n):
     return basetwo(''.join(islice(iterator, n)))
 
-
+#traverse the binary iter and build a list with decoded values
 def get_packet(it: iter, number_packets=None):
     decoded = []
     count = 0
@@ -108,6 +108,7 @@ decoded = get_packet(input_binary_iter)
 sum_version = sum(element.get('version', 0) for element in decoded if type(element) == dict)
 print(f'Part1: {sum_version}')
 
+#build string array from decoded values
 eval_string = []
 for current, next_ in zip_longest(decoded, decoded[1:], fillvalue=None):
     current_type = type(current)
@@ -123,6 +124,7 @@ for current, next_ in zip_longest(decoded, decoded[1:], fillvalue=None):
         eval_string.append(packet_functions[current['type_id']])
 
 eval_string = ''.join(eval_string)
+#fix some comma problems
 eval_string = re.sub(r'\)(?!$|\))','),', eval_string )
 
 print(f'Part 2: {eval(eval_string)}')
