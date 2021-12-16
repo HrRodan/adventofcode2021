@@ -106,7 +106,7 @@ def get_packet(it: iter, number_packets=None):
 decoded = get_packet(input_binary_iter)
 
 sum_version = sum(element.get('version', 0) for element in decoded if type(element) == dict)
-print(f'Part1: {sum_version}')
+print(f'Part 1: {sum_version}')
 
 #build string array from decoded values
 eval_string = []
