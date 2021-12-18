@@ -1,14 +1,15 @@
 import math
 import re
+from typing import Union
 
 
 class SnailfishNumber():
     def __init__(self, number: str):
         self.number = number
 
-    def __add__(self, other):
+    def __add__(self, other : Union[str, 'SnailfishNumber']):
         if not isinstance(other, SnailfishNumber):
-            other = SnailfishNumber(other)
+            return SnailfishNumber(f'[{self.number},{other}]')
         return SnailfishNumber(f'[{self.number},{other.number}]')
 
     def __str__(self):
@@ -50,8 +51,8 @@ class SnailfishNumber():
         ix, pair = self.find_next_explosion()
         if not pair:
             return False
-        (prev, next_) = self.get_number_from_pair(pair)
-        # split string along exlotion pair
+        (prev, following) = self.get_number_from_pair(pair)
+        # split string along explosion pair
         number_prev = self.number[:ix]
         number_following = self.number[ix + len(pair):]
         # replace last integer
@@ -59,7 +60,7 @@ class SnailfishNumber():
                              lambda m: m.group(1) + str(int(m.group(2)) + prev), number_prev, count=1)
         # replace first integer
         number_following = re.sub(r'\d+',
-                                  lambda m: str(int(m.group()) + next_), number_following, count=1)
+                                  lambda m: str(int(m.group()) + following), number_following, count=1)
         new_number = number_prev + '0' + number_following
         changed = new_number != self.number
         self.number = new_number
