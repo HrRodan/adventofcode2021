@@ -58,7 +58,7 @@ class Trajectory():
         return (point, y_max)
 
 
-def iterate_trajectories(x_target: Tuple[int, int], y_target: Tuple[int, int]):
+def iterate_trajectories(x_target: Tuple[int, int], y_target: Tuple[int, int]) -> Tuple[Trajectory, int]:
     x_range = range(1, x_target[0] - 1, -1) if x_target[0] < 0 else range(x_target[1] + 1)
     #each shot reaches y=0 at -vy0 and hits bottom of target only if v<bottom_of_target
     vy_min = min(y_target)
