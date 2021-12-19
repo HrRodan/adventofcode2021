@@ -36,11 +36,11 @@ class SnailfishNumber():
 
     @staticmethod
     def split_number(match):
-        number = int(match.group())
-        if number > 9:
-            number_by_two = int(number) / 2
+        number_ = int(match.group())
+        if number_ > 9:
+            number_by_two = int(number_) / 2
             return f'[{math.floor(number_by_two)},{math.ceil(number_by_two)}]'
-        return str(number)
+        return str(number_)
 
     @staticmethod
     def magnitude_of_pair(match):
