@@ -13,8 +13,9 @@ for s in scanner_raw:
 
 #48 possibilities -> should be 24
 #axes = [(0, 1, 2), (2, 0, 1), (1, 2, 0)]
-axes = permutations((0,1,2))
-combinations = list(product(product([-1, 1], repeat=3), axes))
+axes =list(permutations((0,1,2)))
+switches = list((product([-1, 1], repeat=3)))
+combinations = list(product(switches, axes))
 
 
 def switch_columns(array: np.array, combination):
@@ -38,21 +39,24 @@ def find_matches(scanner_test, ix):
             scanner_location = None
             index = None
             scanner_final = None
+            difference_final = None
             for c in combinations:
                 scanner_new = switch_columns(s, c)
-                a = distance.cdist(scanner_test, scanner_new)
-                values, counts = np.unique(a, return_counts=True)
+                #possible with scanner_test(:,None) - scanner_new(None,:)
+                #a = distance.cdist(scanner_test, scanner_new)
+                a = scanner_test[:,None] - scanner_new[None,:]
+                values, counts = np.unique(np.vstack(a), return_counts=True, axis=0)
                 count_max_values = counts.max()
                 if count_max_values > max_count_combination:
                     max_count_combination = count_max_values
                     # find index of max values
-                    index = np.array(a == values[counts == count_max_values][0]).nonzero()
+                    #index = np.array(a == values[counts == count_max_values][0]).nonzero()
+                    difference_final = values[counts==count_max_values]
                     scanner_final = scanner_new.copy()
             if max_count_combination > 11:
                 matches_found.add(ix)
-                scanner_location = scanner_test[index[0]][0] - scanner_final[index[1]][0]
-                result = {'scanner': (ix, i), 'scanner_location': scanner_location, 'counts_max': max_count_combination,
-                          'beacon_location': scanner_test[index[0]]}
+                scanner_location = difference_final
+                result = {'scanner': (ix, i), 'scanner_location': scanner_location, 'counts_max': max_count_combination}
                 matches.append(result)
                 # replace matched rotation in original array
                 scanner[i] = scanner_final + scanner_location
@@ -67,7 +71,7 @@ if __name__ == '__main__':
     unique_count = np.unique(np.concatenate(scanner, axis=0), axis=0).shape[0]
     print(unique_count)
 
-    scanner_locations = np.array([value for element in matches
+    scanner_locations = np.vstack([value for element in matches
                                   for key, value in element.items() if key == 'scanner_location'])
 
     scanner_locations_distances = distance.cdist(scanner_locations, scanner_locations, 'cityblock')

@@ -20,7 +20,7 @@ def decode_image(subarray: np.array):
 output = np.pad(input_array, 1, mode='constant', constant_values=False)
 for i in range(COUNT_OPT):
     #pad on the fly to avoid looping through zeroes
-    print(i)
+    #print(i)
     #expand edge/nearest to account for possibility of decode[0]==True
     output = ndimage.generic_filter(np.pad(output, 1, mode='edge'),
                                     decode_image, size=(3,3), mode='nearest')
