@@ -11,7 +11,7 @@ for s in scanner_raw:
     scanner.append(np.array([(int(x), int(y), int(z)) for i, line in enumerate(s.split('\n')) if i > 0
                              for x, y, z in [line.split(',')]]))
 
-scanner_raw_np = scanner.copy()
+#48 possibilities -> should be 24
 #axes = [(0, 1, 2), (2, 0, 1), (1, 2, 0)]
 axes = permutations((0,1,2))
 combinations = list(product(product([-1, 1], repeat=3), axes))
