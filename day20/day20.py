@@ -6,8 +6,7 @@ COUNT_OPT = 50
 with open('input.txt', 'r') as file:
     decode, input_map = file.read().strip().split('\n\n')
 
-decode = np.fromiter((True if char == '#' else False for char in decode.strip()),
-                     dtype=bool, count=len(decode.strip()))
+decode = np.fromiter((True if char == '#' else False for char in decode.strip()), dtype=bool, count=len(decode.strip()))
 
 input_array = np.array([[True if char == '#' else False for char in line]
                         for line in input_map.split('\n') if line.strip()]).astype(bool)
