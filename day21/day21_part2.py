@@ -1,5 +1,6 @@
 from collections import Counter, defaultdict
 from itertools import product
+from timeit import default_timer as timer
 
 # get all combinations of 3 dice rolls and sum them
 COMBINATIONS = {
@@ -13,8 +14,7 @@ COUNTER = Counter(COMBINATIONS.values())
 
 
 def move_player(position, score, steps):
-    mod = (position + steps) % 10
-    position_final = mod if mod != 0 else 10
+    position_final = (position + steps - 1) % 10 + 1
     return position_final, score + position_final
 
 
@@ -30,6 +30,7 @@ def roll_next(position, score, length, p, length_dict):
 
 
 if __name__ == '__main__':
+    start = timer()
     # player_positions = [7,8]
     player_positions = [4, 8]
     # the length dicts contain all possibilities for a given (number of rolls, score)
@@ -48,5 +49,6 @@ if __name__ == '__main__':
             # Player2 plays 2nd -> 1 and 2 must have same number of rolls, 1 must not have won
             if score2 >= 21 and length2 == length1 and score1 < 21:
                 won[1] += value1 * value2
-
+    end = timer()
+    print(end - start)
     print(max(won))
