@@ -19,8 +19,9 @@ def decode_image(subarray: np.array):
 
 @lru_cache
 def decode_image_cachable(sub: tuple):
+    # sourcery skip: comprehension-to-generator
     # astype of numpy had bad performance
-    return decode[int(''.join('1' if bool_ else '0' for bool_ in sub), 2)]
+    return decode[int(''.join(['1' if bool_ else '0' for bool_ in sub]), 2)]
 
 
 # initial pad of False value
